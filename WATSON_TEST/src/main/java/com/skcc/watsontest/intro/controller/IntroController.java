@@ -36,7 +36,7 @@ public class IntroController {
 	private final String user_pw	=	"otP7i11utmfj";
 	private final String work_id	= 	"9ef72967-08b9-4270-b16f-08f8e01f1ad1";
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="/intro.do")
 	public ModelAndView intro(Map<String, Object> commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("intro");
 		
