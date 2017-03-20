@@ -175,6 +175,21 @@
 			<artifactId>log4jdbc-remix</artifactId>
 			<version>0.2.7</version>
 		</dependency>
+		
+		<!-- JSONObject를 위한 추가 : 2015-01-25 김윤기 -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+		</dependency>
+		<!-- JSONObject를 위한 추가 : 2015-01-25 김윤기 -->	
+		   
+		<!--  watson API -->
+		<dependency>
+    		<groupId>com.ibm.watson.developer_cloud</groupId>
+   			 <artifactId>java-sdk</artifactId>
+   		 	<version>3.5.3</version>
+		</dependency> 
 		   
 	</dependencies>
     <build>
