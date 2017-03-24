@@ -6,12 +6,20 @@
 	<link href="/resources/css/main.css" rel="stylesheet" type="text/css">
 <!-- 	<link href="font-awesome.min.css" rel="stylesheet" type="text/css"> -->
 <style>
+
+	.loadingCon {
+		position:fixed;top:0px;left:0px;width:100%;height:100%;z-index:1000;
+	}
 	.loadingImage {
+	position:absolute;top:50%;left:50%;margin-left:-105px;
+/* 	margin-top:-150px; */
+
+	
 			width:210px;
 			height:212px;
 			display:block;
-			margin: auto;
-			position:  center;
+/*  			margin: auto;  */
+/* 			position:  center; */
 	 		background-image:url(/resources/LoadingImages/loading_630.gif) ; /* 630 x 637 */
  	 		background-size: 50% 50%; 
 	 		background-repeat:no-repeat;
@@ -19,6 +27,26 @@
 /* 	 		horizontal-align: middle; */
  	 		background-position:top center; 
 	 }
+	 
+	 .show {
+    display: block;
+    
+    -webkit-animation: slide-down .3s ease-out;
+    -moz-animation: slide-down .3s ease-out;
+}
+
+@-webkit-keyframes slide-down {
+      0% { opacity: 0; -webkit-transform: translateY(-100%); }   
+    100% { opacity: 1; -webkit-transform: translateY(0); }
+}
+@-moz-keyframes slide-down {
+      0% { opacity: 0; -moz-transform: translateY(-100%); }   
+    100% { opacity: 1; -moz-transform: translateY(0); }
+}
+
+.hidden {
+	display: none;
+	}
 	
 </style>
 	
@@ -44,11 +72,22 @@
 			, dataType : "JSON"
 			, async	: true
 			, data : {"Message" : message}
+			//, timeout : 3000
 			, success : function(d) {
 				if(d.resultCd == "S") {
 					//$("#return").text(d.message);
 					typedText( d.message.replace(/\[/gi,"").replace(/\]/gi,""));
 					$("#message").val("");
+					
+					if (d.resultProductImg != '' && d.resultProductImg != "null"){
+						$("#recommended").find("img").attr("src", d.resultProductImg ) ;
+						$("#recommended").find("a").attr("href", d.resultProductLink ) ;
+						$("#recommended").find("p").html( d.resultProductName );
+						
+						fn_show_recommendView();
+					} else {
+						fn_hide_recommendView();
+					}
 					fn_hide_loadingbar();
 				} else {
 					alert(d.msg);
@@ -119,17 +158,37 @@ function fn_call(){
 	function fn_hide_loadingbar() {
 		$("div.loadingCon, #loadingMask").remove();	
 	}
+	
+	/**
+	 *	휴대폰 추천 영역 노출 
+	 */
+	function fn_show_recommendView(){
+		$("#recommendBox").removeClass("hidden");
+		$("#recommendBox").addClass("show");
+		$("#spaces").remove();
+	}
+	
+	/**
+	 *	휴대폰 추천 영역 숨김 
+	 */
+	function fn_hide_recommendView(){
+		$("#recommendBox").addClass("hidden");
+		$("#recommendBox").removeClass("show");
+		$("#spaces").remove();
+	}
 </script>
 </head>
 <body >
 
 <div id="page-wrapper">
 <section id="main" class="container">
-		<br />
-		<br />
-		<br /><br />
-		<br />
-		
+		<div id="spaces">
+			<br />
+			<br />
+			<br />
+			<br />
+			<br />
+		</div>
 		 <div class=" row uniform 50%" style="text-align:center;"> 
 		  	<h2 class="element"></h2>
 		 </div>
@@ -159,6 +218,24 @@ function fn_call(){
 			</form>
 			</section>
 			</div>
+			</div>
+			
+			<div class="row hidden" id="recommendBox" >
+				<div class="12u">
+					<section class="box">
+						<h2>Tailored For You</h2>
+						<div id="recommended">
+						<div align="center">
+							<a target="_blank">
+								<img src="" >
+								<p> </p>
+							</a>
+							
+						</div> 
+							
+						</div>
+					</section>
+				</div>
 			</div>
 	</section>
 </div>
