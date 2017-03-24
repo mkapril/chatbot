@@ -138,7 +138,7 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 			logger.debug("RESPONSE START =====");
 			logger.debug(response);
 			
-			if(!"[exception]".equals(map.get("nodes_visited").toString()) ){
+			if(!"[exception]".equals(map.get("nodes_visited")) && map.get("nodes_visited")!= null ){
 				session.setAttribute("ContextMap", response.getContext());
 			}
 			
@@ -177,7 +177,7 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
                      throw new SocketTimeoutException();
 				 } else {
 					 e.printStackTrace() ;
-					 resultMap.put("resultText", "알 수 없는 에러가  발생하였습니다  ");
+					 resultMap.put("resultText", "죄송합니다. 다시 한 번 말씀 해 주시겠어요?");
 				 }
 			}catch (SocketTimeoutException f){
 				logger.debug("Exception Occured ==== );"
