@@ -54,16 +54,58 @@
 <script src="/resources/typed.js"></script>
 
 <script type="text/javascript">
-	function typedText (textStrings){
+	function typedTextByLine (textStrings){
 		  Typed.new('.element', {
 		        strings: [textStrings],
 		        typeSpeed: 0
 		      });
+		
 	}
 
-	function fn_chat(){
+	/*
+	* Jump to 일 때 텍스트 타이핑 재수행 
+	*/
+	function typedText (textStrings){
+		
+		
+			var filteredText = textStrings.split(",");
+				for ( var i=0 ; i< filteredText.length ; i++){
+					typedTextByLine(filteredText[i]);
+					//sleep(3000);
+					//setTimeout(typedTextByLine(filteredText[i]),3000);
+					
+				}
+			
+		
+	}
+	
+	function sleep(num){	//[1/1000초]
+
+		 var now = new Date();
+
+		   var stop = now.getTime() + num;
+
+		   while(true){
+
+			 now = new Date();
+
+			 if(now.getTime() > stop)return;
+
+		   }
+
+	}
+
+
+
+	function fn_chat(gbn){
 		fn_show_loadingbar();
-		var message = $("#message").val();
+		var message = "";
+		if(gbn == 1){
+			message = $("#message").val();
+			
+		}else{
+			message = $("#privMessage").val();
+		}
 
 		
 		$.ajax({
@@ -77,8 +119,8 @@
 				if(d.resultCd == "S") {
 					//$("#return").text(d.message);
 					typedText( d.message.replace(/\[/gi,"").replace(/\]/gi,""));
+					$("#privMessage").val(message);
 					$("#message").val("");
-					
 					if (d.resultProductImg != '' && d.resultProductImg != "null"){
 						$("#recommended").find("img").attr("src", d.resultProductImg ) ;
 						$("#recommended").find("a").attr("href", d.resultProductLink ) ;
@@ -89,7 +131,12 @@
 						fn_hide_recommendView();
 					}
 					fn_hide_loadingbar();
-				} else {
+				} else if (d.resultCd == "A"){
+					typedText( d.message.replace(/\[/gi,"").replace(/\]/gi,""));
+					$("#message").val("");
+					sleep(2000);
+					//fn_chat(2);
+				}else{
 					alert(d.msg);
 				}
 			}, error : function(xhr, status, error) {
@@ -128,10 +175,10 @@ function fn_call(){
 	}
 	
 	$(document).ready(function() {
-		typedText("Greetings from Watson.");
+		//typedText("안녕하세요. <br> T word Direct입니다");
 		 $( "#message" ).on( "keydown", function(event) {
 		      if(event.which == 13) {
-		    	  fn_chat();
+		    	  fn_chat(1);
 		      	  return false;
 		      }
 		    });
@@ -181,6 +228,7 @@ function fn_call(){
 <body >
 
 <div id="page-wrapper">
+<input type="hidden" id="privMessage" value="" />
 <section id="main" class="container">
 		<div id="spaces">
 			<br />
@@ -189,9 +237,10 @@ function fn_call(){
 			<br />
 			<br />
 		</div>
-		 <div class=" row uniform 50%" style="text-align:center;"> 
-		  	<h2 class="element"></h2>
-		 </div>
+		<h2 class="element"></h2>
+<!-- 		 <div class=" row uniform 50%" style="text-align:center;">  -->
+		  	
+<!-- 		 </div> -->
 		 <div class="row">
 		 	<div class="12u">
 		 		<section class="box">
@@ -206,7 +255,7 @@ function fn_call(){
 							<div class="3u 12u(mobilep)">
 	<!-- 						<ul class="actions"> -->
 	<!-- 							<li> -->
-									<input type="button" value="전송"  class="button special color2 fit" onClick="javascript:fn_chat(); return false;">
+									<input type="button" value="전송"  class="button special color2 fit" onClick="javascript:fn_chat(1); return false;">
 	<!-- 							</li> -->
 	<!-- 						</ul> -->
 							</div>

@@ -42,7 +42,8 @@ public class IntroController {
 	private final String work_id	= 	"9ef72967-08b9-4270-b16f-08f8e01f1ad1";
 	
 	private final String RESULT_FEELING = "S_feeling";
-	private final String RESULT_KIDS    = "S_kids_01"; 
+	private final String RESULT_KIDS    = "Close_02"; 
+	private final String RESULT_KIDS_WEARABLE    = "Close_02"; 
 	private final String RESULT_IPHONE  = "s_phone_list_02";
 	
 	String NuguImg  = "http://shop.tworld.co.kr/pimg/phone/accessory/A05162_1.jpg";
@@ -135,14 +136,26 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 			
 			map = response.getOutput();
 			
-			logger.debug("RESPONSE START =====");
-			logger.debug(response);
+			logger.debug("NODE="+map.get("nodes_visited")+"]");
 			
-			if(!"[exception]".equals(map.get("nodes_visited")) && map.get("nodes_visited")!= null ){
+			 if( !("[anything_else]".equals(map.get("nodes_visited").toString()))  ){
+				logger.debug("정상 다이얼로그====");
 				session.setAttribute("ContextMap", response.getContext());
+				session.setAttribute("PreviousText", response.getOutput().get("text"));
+				logger.debug("정상 다이얼로그 이전 응답 =" +session.getAttribute("PreviousText"));
+			} else {
+				logger.debug("비 정상 다이얼로그====");
+				logger.debug("ANYTHING ELSE YOU NEED====");
+				logger.debug("WHAT I SAID EARLIER=" +session.getAttribute("PreviousText"));
+			//	session.setAttribute("PreviousText", response);
 			}
 			
-			System.out.println(response);
+			logger.debug("context map start ====");
+			System.out.println(session.getAttribute("ContextMap"));
+			
+			logger.debug("reponse start ===");
+
+			logger.debug(response);
 			
 			resultText = map.get("text").toString();
 			String resultNodeVisited = map.get("nodes_visited").toString();
@@ -210,13 +223,26 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 		}
 		
 		String jsonStr = "";
+		String lastSentence = "";
+		System.out.println("!@#!@$!$!@#E!@!R!$!@#!@$R!$!@#E!@!R$!@!$ = = = = " + returnMap.get("resultNodeVisited"));
+		if ("[anything_else]".equals(returnMap.get("resultNodeVisited").toString())){
+			//lastSentence = con
+			jsonStr = "{ \"resultCd\" : \"A\" ,"
+					+ " \"message\" : \""+ returnMap.get("resultText") +"\" ,"
+					+ " \"resultProductImg\" : \""+ returnMap.get("resultProductImg") +"\" ,"
+					+ " \"resultProductLink\" : \""+ returnMap.get("resultProductLink") +"\" ,"
+					+ " \"resultProductName\" : \""+ returnMap.get("resultProductName") +"\" "
+					+ " }";
+		}else{
 		
-		jsonStr = "{ \"resultCd\" : \"S\" ,"
-				+ " \"message\" : \""+ returnMap.get("resultText") +"\" ,"
-				+ " \"resultProductImg\" : \""+ returnMap.get("resultProductImg") +"\" ,"
-				+ " \"resultProductLink\" : \""+ returnMap.get("resultProductLink") +"\" ,"
-				+ " \"resultProductName\" : \""+ returnMap.get("resultProductName") +"\" "
-				+ " }";
+			jsonStr = "{ \"resultCd\" : \"S\" ,"
+					+ " \"message\" : \""+ returnMap.get("resultText") +"\" ,"
+					+ " \"resultProductImg\" : \""+ returnMap.get("resultProductImg") +"\" ,"
+					+ " \"resultProductLink\" : \""+ returnMap.get("resultProductLink") +"\" ,"
+					+ " \"resultProductName\" : \""+ returnMap.get("resultProductName") +"\" "
+					+ " }";
+			
+		}
 		return jsonStr;
 	}
 	@RequestMapping(value = "fcall.do", produces = "application/json; charset=utf8")
