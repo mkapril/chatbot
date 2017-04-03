@@ -41,31 +41,6 @@ public class IntroController {
 	private final String user_pw	=	"otP7i11utmfj";
 	private final String work_id	= 	"9ef72967-08b9-4270-b16f-08f8e01f1ad1";
 	
-	private final String RESULT_FEELING = "S_feeling";
-	private final String RESULT_KIDS    = "Close_02"; 
-	private final String RESULT_KIDS_WEARABLE    = "Close_02"; 
-	private final String RESULT_IPHONE  = "s_phone_list_02";
-	
-	String NuguImg  = "http://shop.tworld.co.kr/pimg/phone/accessory/A05162_1.jpg";
-	String NuguLink = "http://shop.tworld.co.kr/handler/AccessoryMall-AccView?CATEGORY_ID=10010006&ACCESSORY_ID=A05162&callGnb=02";
-	String NuguName = "[UO] NUGU 음성인식 디바이스"; 
-	
-	String kidsImg = "http://shop.tworld.co.kr/pimg/phone/MZ/MZ01/default/MZ01_001_13.jpg";
-	String kidsLink = "http://shop.tworld.co.kr/handler/PhoneDetail?callGnb=01&PRODUCT_GRP_ID=000001892";
-	String kidsName ="헬로키티폰";
-	
-	String iPhoneImg = "http://shop.tworld.co.kr/pimg/phone/CG/CGNQ/default/CGNQ_001_16.jpg";
-	String iPhoneLink = "http://shop.tworld.co.kr/handler/PhoneDetail-Start?PRODUCT_GRP_ID=000001972&SUBSCRIPTION_ID=NA00004775&CATEGORY_ID=20010001&REL_CATEGORY_ID=30010024&COLOR_HEX=AA1C28&callGnb=01";
-	String iPhoneName = "iPhone 7 (PRODUCT) RED";
-	
-	
-	
-	String[][] productArr = {{ RESULT_FEELING, NuguImg , NuguLink, NuguName }
-							,{ RESULT_KIDS   , kidsImg , kidsLink, kidsName }
-							,{ RESULT_IPHONE , iPhoneImg, iPhoneLink, iPhoneName}
-							};
-	
-	
 	@RequestMapping(value="/intro.do")
 	public ModelAndView intro(Map<String, Object> commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("intro");
@@ -85,7 +60,7 @@ public class IntroController {
 		//Session이 있으면 읽고 없으면 생성 안함
 //		HttpSession session = request.getSession(false);
 		
-		session.setMaxInactiveInterval(10); //default 30분, 10초간 유효
+		session.setMaxInactiveInterval(600); //default 30분, 10초간 유효
 		
 		MessageResponse response;
 		 service = new ConversationService(ConversationService.VERSION_DATE_2016_09_20);
@@ -140,10 +115,16 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 			
 			 if( !("[anything_else]".equals(map.get("nodes_visited").toString()))  ){
 				logger.debug("정상 다이얼로그====");
+				if(!"".equals(session.getAttribute("ContextMap")) || session.getAttribute("ContextMap") != null){
+					session.setAttribute("PrevContextMap", cmap);
+				}
 				session.setAttribute("ContextMap", response.getContext());
 				session.setAttribute("PreviousText", response.getOutput().get("text"));
 				logger.debug("정상 다이얼로그 이전 응답 =" +session.getAttribute("PreviousText"));
 			} else {
+				if(!"".equals(session.getAttribute("PrevContextMap")) ||  session.getAttribute("PrevContextMap") != null){
+					session.setAttribute("ContextMap", session.getAttribute("PrevContextMap"));
+				}
 				logger.debug("비 정상 다이얼로그====");
 				logger.debug("ANYTHING ELSE YOU NEED====");
 				logger.debug("WHAT I SAID EARLIER=" +session.getAttribute("PreviousText"));
@@ -173,16 +154,6 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 			logger.debug("FINAL NODE VISITED IS ### " + resultNodeVisitedFiltered);
 			
 			
-			for (int i=0; i < productArr.length; i++){
-				if (productArr[i][0].equals(resultNodeVisitedFiltered)){ // 최종 노드 도달 
-					resultMap.put("resultProductImg", productArr[i][1]);
-					resultMap.put("resultProductLink", productArr[i][2]);
-					resultMap.put("resultProductName", productArr[i][3]);
-					logger.debug("resultProductImg [" +resultMap.get("resultProductImg")+"]");
-					logger.debug("resultProductLink [" +resultMap.get("resultProductLink")+"]");
-					logger.debug("resultProductName [" +resultMap.get("resultProductName")+"]");
-				}
-			}
 		//	resultMap.put("", value)
 		} catch (Exception e) {
 			try{
@@ -223,25 +194,23 @@ public Map<String,String> conversation(String message, HttpServletRequest reques
 		}
 		
 		String jsonStr = "";
-		String lastSentence = "";
-		System.out.println("!@#!@$!$!@#E!@!R!$!@#!@$R!$!@#E!@!R$!@!$ = = = = " + returnMap.get("resultNodeVisited"));
+		
 		if ("[anything_else]".equals(returnMap.get("resultNodeVisited").toString())){
 			//lastSentence = con
 			jsonStr = "{ \"resultCd\" : \"A\" ,"
-					+ " \"message\" : \""+ returnMap.get("resultText") +"\" ,"
-					+ " \"resultProductImg\" : \""+ returnMap.get("resultProductImg") +"\" ,"
-					+ " \"resultProductLink\" : \""+ returnMap.get("resultProductLink") +"\" ,"
-					+ " \"resultProductName\" : \""+ returnMap.get("resultProductName") +"\" "
+					+ " \"message\" : \""+ returnMap.get("resultText") +"\" "
 					+ " }";
-		}else{
-		
-			jsonStr = "{ \"resultCd\" : \"S\" ,"
+		}else if (returnMap.get("resultNodeVisited").toString().indexOf("E_") > 0){
+			
+			jsonStr = "{ \"resultCd\" : \"E\" ,"
 					+ " \"message\" : \""+ returnMap.get("resultText") +"\" ,"
-					+ " \"resultProductImg\" : \""+ returnMap.get("resultProductImg") +"\" ,"
-					+ " \"resultProductLink\" : \""+ returnMap.get("resultProductLink") +"\" ,"
-					+ " \"resultProductName\" : \""+ returnMap.get("resultProductName") +"\" "
+					+ " \"resultProduct\" : \""+ returnMap.get("resultNodeVisited") +"\" "
 					+ " }";
 			
+		}else {
+			jsonStr = "{ \"resultCd\" : \"S\" ,"
+					+ " \"message\" : \""+ returnMap.get("resultText") +"\" "
+					+ " }";
 		}
 		return jsonStr;
 	}
