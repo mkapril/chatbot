@@ -296,7 +296,7 @@ function fn_call(){
 						<div id="recommended" >
 							<div class="newphoneList">
 								<div class="con" id="galaxy" style="display: none;">
-									<h2>Tailored For You</h2>
+									<h2>당신을 위한 맞춤 추천!</h2>
 									<ul>
 										<li>
 											<dl>
@@ -324,7 +324,7 @@ function fn_call(){
 									</ul>
 								</div>
 								<div class="con" id="iphone7" style="display: none;">
-									<h2>Tailored For You</h2>
+									<h2>당신을 위한 맞춤 추천!</h2>
 									<ul>
 										<li>
 											<dl>
@@ -351,7 +351,7 @@ function fn_call(){
 									</ul>
 								</div>
 								<div class="con" id="reason" style="display: none;">
-									<h2>Tailored For You</h2>
+									<h2>당신을 위한 맞춤 추천!</h2>
 									<ul>
 										<li>
 											<dl>
@@ -378,7 +378,7 @@ function fn_call(){
 									</ul>
 								</div>
 								<div class="con" id="wearable" style="display: none;">
-									<h2>Tailored For You</h2>
+									<h2>당신을 위한 맞춤 추천!</h2>
 									<ul>
 										<li>
 											<dl>
@@ -405,7 +405,7 @@ function fn_call(){
 									</ul>
 								</div>
 								<div class="con" id="kitty" style="display: none;">
-									<h2>Tailored For You</h2>
+									<h2>당신을 위한 맞춤 추천!</h2>
 									<ul>
 										<li>
 											<dl>
