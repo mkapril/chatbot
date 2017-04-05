@@ -236,6 +236,11 @@ function fn_call(){
 			$("#recommendBox").addClass("show");
 			$("#kitty").show();
 			$("#spaces").remove();
+		} else if (gbn == '[E_phoneNumber]') {
+			$("#recommendBox").removeClass("hidden");
+			$("#recommendBox").addClass("show");
+			$("#galaxy8").show();
+			$("#spaces").remove();
 		}
 		
 	}
@@ -417,6 +422,34 @@ function fn_call(){
 												</dd>
 											</dl>
 										</li>
+									</ul>
+								</div>
+								<div class="con" id="galaxy8" style="display: none;">
+									<h2>Galaxy S 시리즈 자세히 보기!</h2> 
+									<ul>
+<!-- 									<img src="http://shop.tworld.co.kr/pimg/phone/SS/SS3E/default/rotate/SS3E_001_360_1.png" > -->
+										<div style="width: 770px; margin:0 auto;">	
+											<p><img src="http://shop.tworld.co.kr/pimg/webeditor/201703/29/20170329143852_file0.jpg" style="display:block; width:100%;"></p>
+											<div class="hidden">
+												<p>차원이 다른 몰입감 인피니티 디스플레이 - 인피니티 디스플레이는 듀얼 커브 엣지 스크린으로 전면부에서부터 곡선으로 이어지며 Galaxy S8과 S8+ 메탈로 연결됩니다.  이음새 없는 곡선은 완벽한 대칭을 이룹니다.</p>
+												<p>매 순간을 더욱 특별하게 담는 카메라 - 1200만 화소 듀얼 픽셀 후면 카메라와 800만 화소 전면 카메라는 당신의 낮과 밤, 그 모든 순간을 아주 빠르고 선명하게 담아낼 것입니다.</p>
+												<p>홍채인식으로 확실한 보안 - 홍채패턴은 복제가 불가능하여 당신의 눈으로만 휴대폰에 등록된 정보를 열 수 있습니다.</p>
+											</div>
+											<p><img src="http://shop.tworld.co.kr/pimg/webeditor/201703/29/20170329143852_file1.jpg" style="display:block; width:100%;"></p>
+											<div class="hidden">
+												<p>비가 올 때도 빠르게 - 세계 최초 10nm 프로세서 탑재로 보다 빠르고 강력해졌으며, 배터리 효율성까지도 높였습니다. 뛰어난 메모리 확장성과 방수방진 IP68으로 강력해졌습니다</p>
+												<p>인공지능 빅스비 - 음성인식 인공지능 ‘빅스비＇는 대화, 텍스트 및 터치를 이해합니다. 또한 카메라를 활용한 새로운 검색도 가능합니다. </p>
+												<p>휴대폰, 장벽을 깨다. - 360도나 가상 현실 어느 것도 상관없습니다. Galaxy S8과 S8+로 세상의 장벽을 허물어 버리세요.</p>
+											</div>
+											<p><img src="http://shop.tworld.co.kr/pimg/webeditor/201703/29/20170329143852_file2.jpg" style="display:block; width:100%;"></p>
+											<div class="hidden">
+												<p>스마트 스위치 스마트폰 데이터를 쉽게 옮기세요 - 스마트 스위치를 통해 이전 휴대폰의 데이터를 새로운 Galaxy S8과 S8+로 쉽게 전송할 수 있습니다. 기기마다 다를 수 있습니다. USB커넥터는 박스 안에 있습니다.</p>
+												<p>접근성, 모두를 위한 기술 - Galaxy S8과 S8+는 쉽게 사용할 수 있도록 만들어졌습니다. 첨단 기술이 집약되어 그 누구라도 쉽게 다양한 기능들을 사용할 수 있습니다.</p>
+												<p>액세서리 전원 &amp; 스타일 - 엄선된 액세서리 컬렉션으로 Galaxy S8, S8+를 충전하고 나만의 스타일을 만들어보세요.</p>
+											</div>
+										
+											
+										</div>
 									</ul>
 								</div>
 							</div>
