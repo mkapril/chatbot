@@ -425,7 +425,7 @@ function fn_call(){
 									</ul>
 								</div>
 								<div class="con" id="galaxy8" style="display: none;">
-									<h2>Galaxy S 시리즈 자세히 보기!</h2> 
+									<h2>Galaxy S8 시리즈 자세히 보기!</h2> 
 									<ul>
 <!-- 									<img src="http://shop.tworld.co.kr/pimg/phone/SS/SS3E/default/rotate/SS3E_001_360_1.png" > -->
 										<div style="width: 770px; margin:0 auto;">	
